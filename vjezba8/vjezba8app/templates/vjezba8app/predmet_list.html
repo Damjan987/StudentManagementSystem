@@ -1,0 +1,11 @@
+{% extends "vjezba8app/vjezba8app_base.html" %}
+{% block body_block %}
+
+<h1>Svi predmeti</h1>
+<ol>
+  {% for predmet in predmeti %}
+    <h2><li><a href="http://127.0.0.1:8000/vjezba8app/{{predmet.id}}">{{predmet.ime}}</a></li></h2>
+  {% endfor %}
+</ol>
+
+{% endblock %}

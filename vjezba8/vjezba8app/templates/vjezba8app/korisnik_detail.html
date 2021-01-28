@@ -1,0 +1,117 @@
+{% extends "vjezba8app/vjezba8app_base.html" %}
+{% block body_block %}
+
+<div class="jumbotron">
+  <h2>Upisni list za studenta {{korisnik_detail.email}}</h2>
+</div>
+
+
+{% if request.user.is_staff %}
+<div class="container">
+  <div class="row">
+    <div class="col-xs-6">
+      <h2>Neupisani predmeti: </h2>
+      <div class="list-group">
+        {% for predmet in predmeti %}
+          {% if upisi|length == 0 %}
+            <h3 class="list-group-item"><li><button><a href="{% url 'upis_predmeta' predmet_id=predmet.pk student_id=korisnik_detail.pk %}">+</a></button> {{ predmet.ime }}</li></h3>
+          {% endif %}
+          {% for upis in upisi %}
+            {% if upis.student_id.username == korisnik_detail.user.username %}
+              {% if upis.predmet_id.ime != predmet.ime %}
+                <h3 class="list-group-item"><li><button><a href="{% url 'upis_predmeta' predmet_id=predmet.pk student_id=korisnik_detail.pk %}">+</a></button> {{ predmet.ime }}</li></h3>
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="col-xs-6">
+      <h2>Upisani predmeti:</h2>
+      <div class="list-group">
+        {% for upis in upisi %}
+          {% if upis.student_id.username == korisnik_detail.user.username and upis.status != "passed" %}
+            <h3 class="list-group-item">
+              <li>
+                <button><a href="{% url 'polaganje_predmeta' predmet_id=upis.predmet_id.pk student_id=korisnik_detail.pk %}">✓</a></button> <button><a href="{% url 'brisanje_predmeta' predmet_id=upis.predmet_id.pk student_id=korisnik_detail.pk %}">X</a></button> {{ upis.predmet_id.ime }}
+              </li>
+            </h3>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="col-xs-6">
+      <h2>Položeni predmeti:</h2>
+      <div class="list-group">
+        {% for upis in upisi %}
+          {% if upis.status == "passed" %}
+            <h3 class="list-group-item">
+              <li>
+                <button>✓</button> {{ upis.predmet_id.ime }}
+              </li>
+            </h3>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% else %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-xs-6">
+      <h2>Neupisani predmeti: </h2>
+      <div class="list-group">
+        {% for predmet in predmeti %}
+          {% if upisi|length == 0 %}
+            <h3 class="list-group-item"><li><button><a href="{% url 'upis_predmeta' predmet_id=predmet.pk student_id=korisnik_detail.pk %}">+</a></button> {{ predmet.ime }}</li></h3>
+          {% endif %}
+          {% for upis in upisi %}
+            {% if upis.student_id.username == request.user.username %}
+              {% if upis.predmet_id.ime != predmet.ime %}
+                <h3 class="list-group-item"><li><button><a href="{% url 'upis_predmeta' predmet_id=predmet.pk student_id=korisnik_detail.pk %}">+</a></button> {{ predmet.ime }}</li></h3>
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="col-xs-6">
+      <h2>Upisani predmeti:</h2>
+      <div class="list-group">
+        {% for upis in upisi %}
+          {% if upis.student_id.username == request.user.username and upis.status != "passed" %}
+            <h3 class="list-group-item">
+              <li>
+                <button><a href="{% url 'polaganje_predmeta' predmet_id=upis.predmet_id.pk student_id=korisnik_detail.pk %}">✓</a></button> <button><a href="{% url 'brisanje_predmeta' predmet_id=upis.predmet_id.pk student_id=korisnik_detail.pk %}">X</a></button> {{ upis.predmet_id.ime }}
+              </li>
+            </h3>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="col-xs-6">
+      <h2>Položeni predmeti:</h2>
+      <div class="list-group">
+        {% for upis in upisi %}
+          {% if upis.status == "passed" %}
+            <h3 class="list-group-item">
+              <li>
+                <button>✓</button> {{ upis.predmet_id.ime }}
+              </li>
+            </h3>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+
+{% endblock %}

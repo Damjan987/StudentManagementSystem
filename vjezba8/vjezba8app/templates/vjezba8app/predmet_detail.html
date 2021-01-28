@@ -1,0 +1,18 @@
+{% extends "vjezba8app/vjezba8app_base.html" %}
+{% block body_block %}
+
+<div class="jumbotron">
+  <h1>Detalji o predmetu:</h1>
+  <p>Ime: {{predmet_detail.ime}}</p>
+  <p>Kod: {{predmet_detail.kod}}</p>
+  <p>Program: {{predmet_detail.program}}</p>
+  <p>Seminar redovni: {{predmet_detail.sem_redovni}}</p>
+  <p>Seminar izvanredni: {{predmet_detail.sem_izvanredni}}</p>
+  <p>Izborni: {{predmet_detail.izborni}}</p>
+</div>
+
+<div>
+  <p><a class="btn btn-warning" href="{% url 'vjezba8app:update' pk=predmet_detail.pk %}">Promijeni</a></p>
+</div>
+
+{% endblock %}

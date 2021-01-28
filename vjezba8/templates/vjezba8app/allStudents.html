@@ -1,0 +1,14 @@
+{% extends "vjezba8app/base.html" %}
+{% block body_block %}
+
+    <h1>Studenti</h1>
+
+    <div class="list-group">
+      {% for k in korisnici %}
+        {% if k.role == "student" %}
+          <a href="{% url 'upisni_list' user_id=k.id %}" class="list-group-item">{{k.email}}</a>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "vjezba8app/vjezba8app_base.html" %}
+
+{% block body_block %}
+
+<h1>
+  {% if not form.instance.pk %}
+    Unesite novi predmet
+  {% else %}
+    Promijenite predmet
+  {% endif %}
+</h1>
+
+<form class="" method="POST">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <input type="submit" class="btn btn_primary" value="Submit">
+</form>
+
+{% endblock %}

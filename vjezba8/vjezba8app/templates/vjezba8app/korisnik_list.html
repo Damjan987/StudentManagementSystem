@@ -1,0 +1,15 @@
+{% extends "vjezba8app/vjezba8app_base.html" %}
+{% block body_block %}
+
+<h1>Svi studenti</h1>
+<ol>
+  {% if request.user.is_staff %}
+    {% for student in korisnici %}
+      <h2><li><a href="http://127.0.0.1:8000/vjezba8app/student/{{student.id}}">{{student.email}}</a></li></h2>
+    {% endfor %}
+  {% else %}
+    <h2><li><a href="http://127.0.0.1:8000/vjezba8app/student/{{request.user.korisnik.id}}">{{request.user.korisnik.email}}</a></li></h2>
+  {% endif %}
+</ol>
+
+{% endblock %}
